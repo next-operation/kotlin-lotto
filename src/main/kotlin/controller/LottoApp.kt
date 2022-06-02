@@ -19,15 +19,15 @@ class LottoApp(private val inputView: InputView, private val outputView: OutputV
 
         val winningNumbers = validInputView({ inputWinningNumbers() }) { outputView.printMessage(it) }
 
-        // 당첨번호와 티켓의 번호 매칭 후 당첨 여부 확인
-        val lottoRanks = lottoTicket.match(winningNumbers)
-
         // 당첨금액과 구매금액을 비교하여 수익율 계산
+        val lottoResult = LottoResult(lottoTicket.match(winningNumbers), capital)
+        outputView.printLottoResult(lottoResult)
+
     }
 
     private fun inputCapital(): Money {
         outputView.requestCapital()
-        return Money(inputView.inputNumber().toLong())
+        return Money.of(inputView.inputNumber())
     }
 
     private fun inputLottoCount(money: Money): LottoCount {
